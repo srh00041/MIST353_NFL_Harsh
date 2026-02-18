@@ -33,9 +33,10 @@ alter table ConferenceDivision
 go
 create TABLE Team (
     TeamID INT identity(1,1)
-        constraint PK_Twam PRIMARY KEY,
+        constraint PK_Team PRIMARY KEY,
     TeamName NVARCHAR(50) NOT NULL,
-    TeamColors NVARCHAR(50) NOT NULL,
+    TeamCityState NVARCHAR(50) NOT NULL,
+    TeamColors NVARCHAR(100) NOT NULL,
     ConferenceDivisionID INT NOT NULL  
         constraint FK_Team_ConferenceDivision FOREIGN KEY REFERENCES ConferenceDivision(ConferenceDivisionID)
 );

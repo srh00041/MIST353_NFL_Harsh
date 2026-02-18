@@ -1,0 +1,2 @@
+-- 3 queries
+--1 for each conference division and team tables and 1 join query
