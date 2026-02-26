@@ -4,7 +4,9 @@
 --DROP database NFL_RDB_Harsh;
 
 --create tables for first iteration
-use MIST353_NFL_RDB_Harsh;
+--use MIST353_NFL_RDB_Harsh;
+
+use[mist353-nfl-harsh];
 
 if(OBJECT_ID('Team') is not null)
     drop table Team;
