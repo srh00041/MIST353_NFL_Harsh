@@ -1,7 +1,8 @@
 -- insert data
 --insert all the ConferenceDivision data (8 rows)
-use MIST353_NFL_RDB_Harsh;
+--use MIST353_NFL_RDB_Harsh;
 
+use[mist353-nfl-harsh];
 
 insert into ConferenceDivision (Conference, Division)
 values ('AFC', 'North'),
