@@ -7,6 +7,17 @@
 --use MIST353_NFL_RDB_Harsh;
 
 use[mist353-nfl-harsh];
+create user APIuser
+for login APILogin
+
+grant execute to APIUser;
+grant select to APIUser;
+
+use master;
+create login APILogin
+with PASSWORD = 'MI$T353Instructor';
+
+
 
 if(OBJECT_ID('Team') is not null)
     drop table Team;
