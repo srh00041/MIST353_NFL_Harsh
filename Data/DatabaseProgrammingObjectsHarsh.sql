@@ -90,3 +90,11 @@ where C.Conference = IsNull(@ConferenceName, C.Conference)
     and (@TeamName is null or T.ConferenceDivisionID = 
     (select ConferenceDivisionID from Team where TeamName = @TeamName))
 end*/
+
+EXEC procGetTeamsByConferenceDivision 
+    @ConferenceName = 'NFC', 
+    @DivisionName = 'West';
+
+SELECT name 
+FROM sys.procedures 
+WHERE name = 'procGetTeamsByConferenceDivision';
