@@ -43,19 +43,13 @@ GO
     @DivisionName = 'North';*/
 
 
-declare @myTeamName nvarchar(50)= 'Pittsburgh Steelers';
-
-select OtherTeam.Teamname
-from Team MyTeam inner join Team OtherTeam
-    on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
-where MyTeam.TeamName != @myTeamName AND
-    OtherTeam.TeamName != @myTeamName;
-
-    --add conference name and division name
-    --find all teams in my division - procedure 
-   
-DECLARE @myTeamName NVARCHAR(50) = 'Pittsburgh Steelers';
-
+create or alter procedure procGetTeamsInSameConferecneDivisionAsSpecifiedTeamTeam
+(
+    @TeamName NVARCHAR(50) = null,
+    @myTeamName NVARCHAR(50) = null
+)
+AS
+BEGIN
 SELECT OtherTeam.TeamName, C.Conference, C.Division
 FROM Team MyTeam INNER JOIN Team OtherTeam
     ON MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
@@ -64,6 +58,21 @@ INNER JOIN ConferenceDivision C
 WHERE 
     MyTeam.TeamName = @myTeamName
     AND OtherTeam.TeamName <> @myTeamName;
+END
+
+
+/*select OtherTeam.Teamname
+from Team MyTeam inner join Team OtherTeam
+    on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
+where MyTeam.TeamName != @myTeamName AND
+    OtherTeam.TeamName != @myTeamName;
+
+    --add conference name and division name
+    --find all teams in my division - procedure 
+   
+DECLARE @myTeamName NVARCHAR(50) = 'Pittsburgh Steelers';*/
+
+
 
 /*create or alter PROCEDURE procGetTeamsByConferenceDivision
 (

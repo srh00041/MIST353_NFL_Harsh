@@ -7,15 +7,32 @@
 --use MIST353_NFL_RDB_Harsh;
 
 use[mist353-nfl-harsh];
-create user APIuser
+
+
+
+/*CREATE USER NandaSurendra
+
+FOR LOGIN APILogin;
+
+-- Step 4: Grant EXECUTE permission on all stored procedures and UDFs
+
+GRANT EXECUTE TO NandaSurendra;
+
+-- Read access to all tables
+
+GRANT SELECT TO NandaSurendra;
+
+create user 
 for login APILogin
+
+
 
 grant execute to APIUser;
 grant select to APIUser;
 
 use master;
 create login APILogin
-with PASSWORD = 'MI$T353Instructor';
+with PASSWORD = 'MI$T353Instructor';*/
 
 
 
