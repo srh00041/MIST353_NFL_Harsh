@@ -62,5 +62,43 @@ values ('Baltimore Ravens', 'Baltimore, MD', 'Purple, Black, Metallic Gold', 1),
 
 select * from Team;
 
+GO
+
+insert into AppUser (FirstName, LastName, Email, Phone, PasswordHash, UserRole)
+VALUES
+('Tom', 'Brady', 'tom.brady@example.com', '555-1234', 0x01, N'NFLFan'),
+('Aaron', 'Rodgers', 'aaron.rodgers@example.com', '555-9012', 0x01, N'NFLFan'),
+('Drew', 'Brees', 'drew.brees@example.com', '555-2222', 0x01, N'NFLFan'),
+('Patrick', 'Mahomes', 'patrick.mahomes@example.com', '555-7890', 0x01, N'NFLFan'),
+
+('Bill', 'Belichick', 'bill.belicheck@example.com', '555-5678', 0x01, N'NFLAdmin'),
+('Sean', 'McVay', 'sean.mcay@example.com', '555-3456', 0x01, N'NFLAdmin'),
+('Mike', 'Tomlin', 'mike.tomlin@example.com', '555-1111', 0x01, N'NFLAdmin'),
+('Andy', 'Reid', 'andy.reid@example.com', '555-3333', 0x01, N'NFLAdmin');
+
+GO
+
+insert into NFLFan (NFLFanID)
+VALUES
+(1), (2), (3), (4);
+
+GO
+
+insert into NFLAdmin (NFLAdminID)
+VALUES
+(5), (6), (7), (8);
+
+GO
+
+insert into FanTeam (NFLFanID, TeamID, PrimaryTeam)
+VALUES
+(1, 11, 1),
+(1, 24, 0),
+(2, 19, 1),
+(2, 12, 0),
+(2, 4, 0),
+(3, 3, 1),
+(3, 16, 0),
+(4, 14, 1);
 
         

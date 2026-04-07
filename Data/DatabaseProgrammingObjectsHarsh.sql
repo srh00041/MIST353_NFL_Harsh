@@ -26,15 +26,16 @@ GO
 
 create or alter PROCEDURE procGetTeamsByConferenceDivision
 (
-@ConferenceName NVARCHAR(50) = null,
-@DivisionName NVARCHAR(50) = null
+    @ConferenceName NVARCHAR(50) = null,
+    @DivisionName NVARCHAR(50) = null
 )
 AS
 begin
-select T.TeamName, T.TeamColors, C.Conference, C.Division
-from Team as T inner join ConferenceDivision as C
-on T.ConferenceDivisionID = C.ConferenceDivisionID
-where Conference = IsNull(@ConferenceName, Conference) and Division = IsNull(@DivisionName, Division)
+    select T.TeamName, T.TeamColors, C.Conference, C.Division
+    from Team T inner join ConferenceDivision C
+        on T.ConferenceDivisionID = C.ConferenceDivisionID
+    where Conference = IsNull(@ConferenceName, Conference) 
+        and Division = IsNull(@DivisionName, Division)
 end
 
 GO
@@ -43,58 +44,51 @@ GO
     @DivisionName = 'North';*/
 
 
-create or alter procedure procGetTeamsInSameConferecneDivisionAsSpecifiedTeamTeam
+create or alter procedure procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
 (
-    @TeamName NVARCHAR(50) = null,
-    @myTeamName NVARCHAR(50) = null
+    @TeamName NVARCHAR(50)   
 )
 AS
 BEGIN
-SELECT OtherTeam.TeamName, C.Conference, C.Division
+    SELECT OtherTeam.TeamName, CD.Conference, CD.Division
 FROM Team MyTeam INNER JOIN Team OtherTeam
     ON MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
-INNER JOIN ConferenceDivision C
-    ON MyTeam.ConferenceDivisionID = C.ConferenceDivisionID
+INNER JOIN ConferenceDivision CD
+    ON MyTeam.ConferenceDivisionID = CD.ConferenceDivisionID
 WHERE 
-    MyTeam.TeamName = @myTeamName
-    AND OtherTeam.TeamName <> @myTeamName;
+    MyTeam.TeamName = @TeamName
+    AND OtherTeam.TeamName != @TeamName;
 END
+--EXECUTE procGetTeamsInSameConferenceDivisionAsSpecifiedTeamTeam @TeamName = 'Baltimore Ravens'
 
 
-/*select OtherTeam.Teamname
-from Team MyTeam inner join Team OtherTeam
-    on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
-where MyTeam.TeamName != @myTeamName AND
-    OtherTeam.TeamName != @myTeamName;
+GO
 
-    --add conference name and division name
-    --find all teams in my division - procedure 
-   
-DECLARE @myTeamName NVARCHAR(50) = 'Pittsburgh Steelers';*/
-
-
-
-/*create or alter PROCEDURE procGetTeamsByConferenceDivision
+create or alter procedure procValidateUser
 (
-@ConferenceName NVARCHAR(50) = null,
-@DivisionName NVARCHAR(50) = null
-@TeamName NVARCHAR(50) = null
+    @Email NVARCHAR(100),
+    @PasswordHash NVARCHAR(200)
 )
 AS
-begin
-select T.TeamName, T.TeamColors, C.Conference, C.Division
-from Team as T inner join ConferenceDivision as C
-    on T.ConferenceDivisionID = C.ConferenceDivisionID
-where C.Conference = IsNull(@ConferenceName, C.Conference) 
-    and Division = IsNull(@DivisionName, Division)
-    and (@TeamName is null or T.ConferenceDivisionID = 
-    (select ConferenceDivisionID from Team where TeamName = @TeamName))
-end*/
+BEGIN
+    select AppUserID, FirstName + ' ' + LastName as FullName, UserRole
+    from AppUser
+    where Email = @Email AND
+    PasswordHash = convert(VARBINARY(200), @PasswordHash, 1);
+END
+-- execute procValidateUser @Email = 'tom.brady@example.com', @PasswordHash = '0x01';
 
-EXEC procGetTeamsByConferenceDivision 
-    @ConferenceName = 'NFC', 
-    @DivisionName = 'West';
+GO
 
-SELECT name 
-FROM sys.procedures 
-WHERE name = 'procGetTeamsByConferenceDivision';
+create or alter procedure procGetTeamsForSpecifiedFan
+(
+    @NFLFanID  INT
+)
+AS 
+BEGIN
+    select T.TeamName, CD.Conference, CD.Division
+    from NFLFan F
+        inner join Team T
+        on F.NFLFanID = T.TeamID
+        inner join ConferenceDivision CD
+        on T.ConferenceDivisionID
