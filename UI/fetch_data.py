@@ -6,10 +6,10 @@ FASTAPI_URL = "http://localhost:8000"
 
 def fetch_data(endpoint: str, input_params: dict, method: str = "GET"):
     if method == "GET":
-        reponse = requests/get(f"{FASTAPI_URL}/{endpoint}", params=input_params)
+        response = requests.get(f"{FASTAPI_URL}/{endpoint}", params=input_params)
 
         if response.status_code == 200:
-            payload = reposne.json()
+            payload = response.json()
             rows = payload.get("data",[])
             df = pd.DataFrame(rows)
             return df

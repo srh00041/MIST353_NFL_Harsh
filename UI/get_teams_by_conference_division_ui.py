@@ -12,19 +12,15 @@ def get_teams_by_conference_division_ui():
 
     if st.button("Fetch Teams"):
         input_params = {}
-        if not team_name.strip():
-            st.warning("Please Enter a Team Name")
-        else:
-            input_params = {}
-            if conference.strip():
-                input_params["conference"] = conference
-            if division.strip():
-                input_params["division"] = division
+        if conference.strip():
+            input_params["conference"] = conference
+        if division.strip():
+            input_params["division"] = division
             
         df = fetch_data("get_teams_by_conference_division/", input_params)
         
-            if df is not None and not df.empty:
-                st.subheader(f"teams in the same conference {conference}, division {division}:")
-                st.dataframe(df, use_container_width=True, hide_index=True)
-            else:
-                st.info(f"No teams found in conference {conference}, division {division}. Please check the inputs and try again.")
+        if df is not None and not df.empty:
+            st.subheader(f"teams in same conference {conference}, division {division}:")
+            st.dataframe(df, use_container_width=True, hide_index=True)
+        else:
+            st.info(f"No teams found in conference {conference}, division {division}. Please check the inputs and try again.")
