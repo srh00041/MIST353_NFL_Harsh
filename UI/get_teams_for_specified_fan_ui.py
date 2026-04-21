@@ -10,6 +10,7 @@ def get_teams_for_specified_fan_ui():
             st.warning("Please Enter a NFL Fan ID")
         else:
             input_params = {}
+
             input_params["nfl_fan_id"] = nfl_fan_id
             df = fetch_data("get_teams_for_specified_fan/", input_params)
 

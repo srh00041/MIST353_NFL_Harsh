@@ -1,19 +1,26 @@
 from get_db_connection import get_db_connection
+import pymssql
 
 def get_teams_in_same_conference_division_as_specified_team(
     team_name: str
 ):
     conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("{call procGetTeamsInSameConferenceDivisionAsSpecifiedTeam(?)}", (team_name,))
+    #cursor = conn.cursor()
+    cursor = conn.cursor(as_dict=True)
+    #cursor.execute("{call procGetTeamsInSameConferenceDivisionAsSpecifiedTeam(?)}", (team_name,))
+    cursor.execute("exec procGetTeamsInSameConferenceDivisionAsSpecifiedTeam %s", (team_name))
     rows = cursor.fetchall()
     conn.close()
 
     results = [
     {
-        "TeamName": row.TeamName,
+        """"TeamName": row.TeamName,
         "Conference": row.Conference,
-        "Division": row.Division
+        "Division": row.Division"""
+
+        "TeamName": row["TeamName"],
+        "Conference": row["Conference"],
+        "Division": row["Division"]
     }
     for row in rows
 ]

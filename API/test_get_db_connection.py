@@ -1,9 +1,7 @@
 from get_db_connection import get_db_connection
-
 import os
-
-import pyodbc
-
+#import pyodbc
+import pymssql
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -27,8 +25,8 @@ def test_get_db_connection():
   # Test 2: Connection returns a pyodbc.Connection object
 
   conn = get_db_connection()
-
-  assert isinstance(conn, pyodbc.Connection), "Expected a pyodbc.Connection"
+  #assert isinstance(conn, pyodbc.Connection), "Expected a pyodbc.Connection"
+  assert isinstance(conn, pymssql.Connection), "Expected a pymssql.Connection"
 
   print("✅ Connection object returned")
 
