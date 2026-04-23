@@ -101,4 +101,125 @@ VALUES
 (3, 16, 0),
 (4, 14, 1);
 
+go
+
+INSERT INTO Stadium (StadiumName, StadiumCityState, Capacity) VALUES
+('M&T Bank Stadium', 'Baltimore, MD', 71008),
+('Paycor Stadium', 'Cincinnati, OH', 65515),
+('Huntington Bank Field', 'Cleveland, OH', 67431),
+('Acrisure Stadium', 'Pittsburgh, PA', 68400),
+('NRG Stadium', 'Houston, TX', 72220),
+('Lucas Oil Stadium', 'Indianapolis, IN', 67000),
+('EverBank Stadium', 'Jacksonville, FL', 62000),
+('Nissan Stadium', 'Nashville, TN', 69143),
+('Geodis Park', 'Nashville, TN', 30000), -- Titans temporary while Nissan demolished/rebuilt
+('Highmark Stadium', 'Orchard Park, NY', 71608),
+('Gillette Stadium', 'Foxborough, MA', 65878),
+('MetLife Stadium', 'East Rutherford, NJ', 82500), -- Giants share with Jets
+('Empower Field at Mile High', 'Denver, CO', 76125),
+('GEHA Field at Arrowhead Stadium', 'Kansas City, MO', 76416),
+('Allegiant Stadium', 'Las Vegas, NV', 65000),
+('SoFi Stadium', 'Inglewood, CA', 70240), --Rams share with Chargers
+('Soldier Field', 'Chicago, IL', 61500),
+('Ford Field', 'Detroit, MI', 65000),
+('Lambeau Field', 'Green Bay, WI', 81441),
+('U.S. Bank Stadium', 'Minneapolis, MN', 66860),
+('Mercedes-Benz Stadium', 'Atlanta, GA', 71000),
+('Bank of America Stadium', 'Charlotte, NC', 74867),
+('Caesars Superdome', 'New Orleans, LA', 73208),
+('Raymond James Stadium', 'Tampa, FL', 69218),
+('AT&T Stadium', 'Arlington, TX', 80000),
+('Lincoln Financial Field', 'Philadelphia, PA', 69796),
+('Northwest Stadium', 'Landover, MD', 67617),
+('State Farm Stadium', 'Glendale, AZ', 63400),
+('Levi''s Stadium', 'Santa Clara, CA', 68500),
+('Lumen Field', 'Seattle, WA', 69000),
+('Oakland Coliseum', 'Oakland, CA', 56057), -- Raiders immediate past
+('Jack Murphy/Qualcomm Stadium', 'San Diego, CA', 70561), -- Chargers immediate past
+('Hard Rock Stadium', 'Miami Gardens, FL', 65300);
+
+-- select * from Stadium order by StadiumID;
+
+go
+
+INSERT INTO TeamStadium 
+(TeamID, StadiumID, StartYear, EndYear) 
+VALUES 
+-- Baltimore Ravens
+(1, 1, 1998, NULL),
+-- Cincinnati Bengals
+(2, 2, 2000, NULL),
+-- Cleveland Browns
+(3, 3, 1999, NULL),
+-- Pittsburgh Steelers
+(4, 4, 2001, NULL),
+-- Houston Texans
+(5, 5, 2002, NULL),
+-- Indianapolis Colts
+(6, 6, 2008, NULL),
+-- Jacksonville Jaguars
+(7, 7, 1995, NULL),
+-- Tennessee Titans (Nissan Stadium, now being replaced)
+(8, 8, 1999, 2026),
+-- Tennessee Titans (temporary home at Geodis Park while new stadium is built)
+(8, 9, 2027, NULL),
+-- Buffalo Bills
+(9, 10, 2026, NULL),
+-- New England Patriots
+(11, 11, 2002, NULL),
+-- New York Jets (MetLife)
+(12, 12, 2010, NULL),
+-- Denver Broncos
+(13, 13, 2001, NULL),
+-- Kansas City Chiefs
+(14, 14, 1972, NULL),
+-- Las Vegas Raiders (Allegiant)
+(15, 15, 2020, NULL),
+-- Las Vegas Raiders immediate past (Oakland Coliseum)
+(15, 31, 1966, 2019),
+-- Los Angeles Chargers (SoFi)
+(16, 16, 2020, NULL),
+-- Los Angeles Chargers immediate past (Qualcomm/StubHub)
+(16, 32, 1967, 2016),
+-- Chicago Bears
+(17, 17, 1971, NULL),
+-- Detroit Lions
+(18, 18, 2002, NULL),
+-- Green Bay Packers
+(19, 19, 1957, NULL),
+-- Minnesota Vikings
+(20, 20, 2016, NULL),
+-- Atlanta Falcons
+(21, 21, 2017, NULL),
+-- Carolina Panthers
+(22, 22, 1996, NULL),
+-- New Orleans Saints
+(23, 23, 1975, NULL),
+-- Tampa Bay Buccaneers
+(24, 24, 1998, NULL),
+-- Dallas Cowboys
+(25, 25, 2009, NULL),
+-- New York Giants (MetLife)
+(26, 12, 2010, NULL),
+-- Philadelphia Eagles
+(27, 26, 2003, NULL),
+-- Washington Commanders
+(28, 27, 1997, NULL),
+-- Arizona Cardinals
+(29, 28, 2006, NULL),
+-- Los Angeles Rams (SoFi)
+(30, 16, 2020, NULL),
+-- San Francisco 49ers
+(31, 29, 2014, NULL),
+-- Seattle Seahawks
+(32, 30, 2002, NULL),
+-- Miami Dolphins
+(10, 33, 1987, NULL);
+
+GO
+
+-- select * from AdminChangesTracker
+-- select * from Game
+-- select N.NFLAdminID, U.Firstname, U.LastName from NFLAdmin N inner join APPUser U on N.NFLAdminID = U.AppUserID
+
         

@@ -115,3 +115,90 @@ BEGIN
             ON T.ConferenceDivisionID = CD.ConferenceDivisionID
     WHERE F.NFLFanID = @NFLFanID;
 END;*/
+
+create or alter procedure procScheduleGame
+(
+    @HomeTeamID INT,
+    @AwayTeamID INT,
+    @GameRound NVARCHAR(20),
+    @GameDate Date,
+    @GameStartTime Time,
+    @StadiumID INT,
+    @NFLAdminID INT
+)
+AS
+BEGIN
+    declare @contect VARBINARY(128) = cast(@NFLAdminID as VARBINARY(128));
+    SET context_info @contect;
+
+    INSERT INTO Game (HomeTeamID, AwayTeamID, GameRound, GameDate, GameStartTime, StadiumID, NFLAdminID)
+    VALUES (@HomeTeamID, @AwayTeamID, @GameRound, @GameDate, @GameStartTime, @StadiumID, @NFLAdminID);
+END;
+
+/*
+execute procScheduleGame
+    @HomeTeamID = 22,
+    @AwayTeamID = 30,
+    @GameRound = 'Wild Card',
+    @GameDate = '2026-01-10',
+    @GameStartTime = '16:30',
+    @StadiumID = 22,
+    @NFLAdminID = 5;
+
+execute procScheduleGame
+    @HomeTeamID = 17,
+    @AwayTeamID = 19,  
+    @GameRound = 'Wild Card',
+    @GameDate = '2026-01-10',
+    @GameStartTime = '20:00',
+    @StadiumID = 17,
+    @NFLAdminID = 6;    
+
+    select * from Game order by GameID desc;
+    select * from AdminChangesTracker order by AdminChangesTrackerID desc;
+*/
+
+
+go
+
+create or alter trigger trgTrackChangesOnSchedulingGame
+ON Game
+AFTER INSERT
+AS
+BEGIN
+    declare @NFLAdminID INT;
+    declare @GameID INT;
+    declare @ChangeType NVARCHAR(50);
+    declare @ChangeDescription NVARCHAR(500);
+    declare @GameRound NVARCHAR(50);
+    declare @GameDate DATE;
+    declare @GameStartTime TIME;
+    declare @HomeTeamID INT;
+    declare @AwayTeamID INT;
+    declare @HomeTeamName NVARCHAR(50);
+    declare @AwayTeamName NVARCHAR(50);
+
+    set @NFLAdminID = convert(int, convert(binary(4), context_info()));
+
+    select @GameID = GameID, @GameRound = GameRound, @GameDate = GameDate, @GameStartTime = GameStartTime, 
+        @HomeTeamID = HomeTeamID, @AwayTeamID = AwayTeamID, @StadiumID = StadiumID
+    from inserted;
+    select @HomeTeamName = TeamName from Team where TeamID = @HomeTeamID;
+    select @AwayTeamName = TeamName from Team where TeamID = @AwayTeamID;
+    select @StadiumName = StadiumName from Stadium where StadiumID = @StadiumID;
+
+    set @ChangeType = 'Insert';
+    set @ChangeDescription = 'Scheduled a new game with GameID ' + cast(@GameID as nvarchar(10))
+         + ': ' + @HomeTeamName + ' vs ' + @AwayTeamName + ' on ' + cast(@GameDate as nvarchar(20))
+        + ' at ' + cast(@GameStartTime as nvarchar(50)) + ' in stadium ' + @StadiumName
+        + '. Game round: ' + @GameRound;
+    
+    set @ChangeType = 'Insert';
+    set @ChangeDescription = 'Scheduled a new game with GameID ' + cast(@GameID as nvarchar(50))
+         + ': ' + @HomeTeamName + ' vs ' + @AwayTeamName + ' on ' + cast(@GameDate as nvarchar(50))
+        + ' at ' + cast(@GameStartTime as nvarchar(50)) + ' in stadium ' + @StadiumName
+        + '. Game round: ' + @GameRound;
+
+    INSERT INTO AdminChangesTracker (NFLAdminID, GameID, ChangeType, ChangeDescription)
+    VALUES (@NFLAdminID, @GameID, @ChangeType, @ChangeDescription);
+END

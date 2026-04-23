@@ -16,9 +16,9 @@ def validate_user(
     #covert pyodbc. row objects to dictionaries
     results = [
         {
-            """"AppUserID": row.AppUserID,
-            "FullName": row.FullName,
-            "UserRole": row.UserRole"""
+            #"AppUserID": row.AppUserID,
+            #"FullName": row.FullName,
+            #"UserRole": row.UserRole
 
             "AppUserID": row["AppUserID"],
             "FullName": row["FullName"],
