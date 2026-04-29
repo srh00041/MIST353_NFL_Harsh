@@ -15,7 +15,7 @@ values ('AFC', 'North'),
         ('NFC', 'West');
 
 GO
-select * from ConferenceDivision order by ConferenceDivisionID;
+--select * from ConferenceDivision order by ConferenceDivisionID;
 
 
 GO
@@ -60,7 +60,7 @@ values ('Baltimore Ravens', 'Baltimore, MD', 'Purple, Black, Metallic Gold', 1),
         ('San Francisco 49ers', 'San Francisco, CA', 'Scarlet, Gold', 8),
         ('Seattle Seahawks', 'Seattle, WA', 'College Navy, Action Green', 8);
 
-select * from Team;
+--select * from Team;
 
 GO
 
@@ -75,6 +75,8 @@ VALUES
 ('Sean', 'McVay', 'sean.mcay@example.com', '555-3456', 0x01, N'NFLAdmin'),
 ('Mike', 'Tomlin', 'mike.tomlin@example.com', '555-1111', 0x01, N'NFLAdmin'),
 ('Andy', 'Reid', 'andy.reid@example.com', '555-3333', 0x01, N'NFLAdmin');
+
+-- select * from AppUser;
 
 GO
 
@@ -217,6 +219,118 @@ VALUES
 (10, 33, 1987, NULL);
 
 GO
+
+INSERT INTO Game (GameRound, GameDate, GameStartTime, HomeTeamID, AwayTeamID, StadiumID, HomeTeamScore, AwayTeamScore, WinningTeamID)
+VALUES
+    ('Wild Card',  '2026-01-10', '16:30:00', 22, 30, 22, 31, 34, 30),
+    ('Wild Card',  '2026-01-10', '20:00:00', 17, 19, 17, 31, 27, 17),
+    ('Wild Card',  '2026-01-11', '13:00:00',  7,  9,  7, 24, 27,  9),
+    ('Wild Card',  '2026-01-11', '16:30:00', 27, 31, 26, 19, 23, 31),
+    ('Wild Card',  '2026-01-11', '20:00:00', 11, 16, 11, 16,  3, 11),
+    ('Wild Card',  '2026-01-12', '20:15:00',  4,  5,  4,  6, 30,  5),
+    ('Divisional', '2026-01-17', '16:30:00', 13,  9, 13, 33, 30, 13),
+    ('Divisional', '2026-01-17', '20:00:00', 32, 31, 30, 41,  6, 32),
+    ('Divisional', '2026-01-18', '15:00:00', 11,  5, 11, 28, 16, 11),
+    ('Divisional', '2026-01-18', '18:30:00', 17, 30, 17, 17, 20, 30);
+
+go
+
+INSERT INTO AdminChangesTracker (NFLAdminID, GameID, ChangeDateTime, ChangeType, ChangeDescription)
+VALUES
+    (5, 1,  '2026-04-23 02:12:19.480', 'Insert', 'Bill Belichick scheduled a new game with GameID 1: Carolina Panthers vs Los Angeles Rams on 2026-01-10 at 16:30:00.0000000 in stadium  Bank of America Stadium. Game round: Wild Card'),
+    (6, 1,  '2026-04-23 02:12:23.730', 'Update', 'Scores updated by Sean McVay for GameID=1: Home=Carolina Panthers (31), Away=Los Angeles Rams (34), WinningTeam=Los Angeles Rams'),
+    (6, 2,  '2026-04-23 02:12:28.960', 'Insert', 'Sean McVay scheduled a new game with GameID 2: Chicago Bears vs Green Bay Packers on 2026-01-10 at 20:00:00.0000000 in stadium  Soldier Field. Game round: Wild Card'),
+    (7, 2,  '2026-04-23 02:12:33.177', 'Update', 'Scores updated by Mike Tomlin for GameID=2: Home=Chicago Bears (31), Away=Green Bay Packers (27), WinningTeam=Chicago Bears'),
+    (7, 3,  '2026-04-23 02:12:37.827', 'Insert', 'Mike Tomlin scheduled a new game with GameID 3: Jacksonville Jaguars vs Buffalo Bills on 2026-01-11 at 13:00:00.0000000 in stadium  EverBank Stadium. Game round: Wild Card'),
+    (8, 3,  '2026-04-23 02:12:41.863', 'Update', 'Scores updated by Andy Reid for GameID=3: Home=Jacksonville Jaguars (24), Away=Buffalo Bills (27), WinningTeam=Buffalo Bills'),
+    (8, 4,  '2026-04-23 02:12:47.003', 'Insert', 'Andy Reid scheduled a new game with GameID 4: Philadelphia Eagles vs San Francisco 49ers on 2026-01-11 at 16:30:00.0000000 in stadium  Lincoln Financial Field. Game round: Wild Card'),
+    (5, 4,  '2026-04-23 02:12:50.723', 'Update', 'Scores updated by Bill Belichick for GameID=4: Home=Philadelphia Eagles (19), Away=San Francisco 49ers (23), WinningTeam=San Francisco 49ers'),
+    (5, 5,  '2026-04-23 02:12:56.920', 'Insert', 'Bill Belichick scheduled a new game with GameID 5: New England Patriots vs Los Angeles Chargers on 2026-01-11 at 20:00:00.0000000 in stadium  Gillette Stadium. Game round: Wild Card'),
+    (6, 5,  '2026-04-23 02:13:00.540', 'Update', 'Scores updated by Sean McVay for GameID=5: Home=New England Patriots (16), Away=Los Angeles Chargers (3), WinningTeam=New England Patriots'),
+    (6, 6,  '2026-04-23 02:13:05.570', 'Insert', 'Sean McVay scheduled a new game with GameID 6: Pittsburgh Steelers vs Houston Texans on 2026-01-12 at 20:15:00.0000000 in stadium  Acrisure Stadium. Game round: Wild Card'),
+    (7, 6,  '2026-04-23 02:13:08.947', 'Update', 'Scores updated by Mike Tomlin for GameID=6: Home=Pittsburgh Steelers (6), Away=Houston Texans (30), WinningTeam=Houston Texans'),
+    (7, 7,  '2026-04-23 02:14:14.147', 'Insert', 'Mike Tomlin scheduled a new game with GameID 7: Denver Broncos vs Buffalo Bills on 2026-01-17 at 16:30:00.0000000 in stadium  Empower Field at Mile High. Game round: Divisional'),
+    (8, 7,  '2026-04-23 02:14:18.237', 'Update', 'Scores updated by Andy Reid for GameID=7: Home=Denver Broncos (33), Away=Buffalo Bills (30), WinningTeam=Denver Broncos'),
+    (7, 8,  '2026-04-23 02:14:24.417', 'Insert', 'Mike Tomlin scheduled a new game with GameID 8: Seattle Seahawks vs San Francisco 49ers on 2026-01-17 at 20:00:00.0000000 in stadium  Lumen Field. Game round: Divisional'),
+    (7, 8,  '2026-04-23 02:14:28.410', 'Update', 'Scores updated by Mike Tomlin for GameID=8: Home=Seattle Seahawks (41), Away=San Francisco 49ers (6), WinningTeam=Seattle Seahawks'),
+    (8, 9,  '2026-04-23 02:14:36.577', 'Insert', 'Andy Reid scheduled a new game with GameID 9: New England Patriots vs Houston Texans on 2026-01-18 at 15:00:00.0000000 in stadium  Gillette Stadium. Game round: Divisional'),
+    (5, 9,  '2026-04-23 02:14:40.840', 'Update', 'Scores updated by Bill Belichick for GameID=9: Home=New England Patriots (28), Away=Houston Texans (16), WinningTeam=New England Patriots'),
+    (6, 10, '2026-04-23 02:14:45.890', 'Insert', 'Sean McVay scheduled a new game with GameID 10: Chicago Bears vs Los Angeles Rams on 2026-01-18 at 18:30:00.0000000 in stadium  Soldier Field. Game round: Divisional'),
+    (7, 10, '2026-04-23 02:14:49.420', 'Update', 'Scores updated by Mike Tomlin for GameID=10: Home=Chicago Bears (17), Away=Los Angeles Rams (20), WinningTeam=Los Angeles Rams');
+
+go
+
+
+
+go
+
+
+-- select * from AdminChangesTracker
+-- select * from Game
+-- select N.NFLAdminID, U.Firstname, U.LastName from NFLAdmin N inner join APPUser U on N.NFLAdminID = U.AppUserID
+
+-- =============================================
+-- CONFERENCE CHAMPIONSHIPS  (January 25, 2026)
+-- =============================================
+
+-- AFC Championship: (2) New England Patriots at (1) Denver Broncos
+-- Patriots win 10-7
+/*
+    @GameRound = 'Conference',
+    @HomeTeamID = 13, -- Denver Broncos
+    @AwayTeamID = 11, -- New England Patriots
+    @GameDate = '2026-01-25',
+    @GameStartTime = '15:00',
+    @StadiumID = 13, -- Empower Field at Mile High
+    @NFLAdminID = 5; -- Bill Belichick
+
+
+    @GameID = 11, 
+    @HomeTeamScore = 7,
+    @AwayTeamScore = 10,
+    @NFLAdminID = 6; -- Sean McVay
+*/
+
+
+-- NFC Championship: (5) LA Rams at (1) Seattle Seahawks
+-- Seahawks win 31-27
+/*
+    @GameRound = 'Conference',
+    @HomeTeamID = 32, -- Seattle Seahawks
+    @AwayTeamID = 30, -- LA Rams
+    @GameDate = '2026-01-25',
+    @GameStartTime = '18:30',
+    @StadiumID = 30, -- Lumen Field
+    @NFLAdminID = 6; -- Sean McVay
+
+    @GameID = 12,
+    @HomeTeamScore = 31,
+    @AwayTeamScore = 27,
+    @NFLAdminID = 7; -- Mike Tomlin
+*/
+
+-- =============================================
+-- SUPER BOWL LX  (February 8, 2026)
+-- Levi's Stadium, Santa Clara, CA (neutral site)
+-- NFC designated home team per rotation
+-- Seahawks win 29-13
+-- =============================================
+
+/*
+    @GameRound = 'Super Bowl',
+    @HomeTeamID = 32, -- Seattle Seahawks (NFC champion, designated home team)
+    @AwayTeamID = 11, -- New England Patriots (AFC champion)
+    @GameDate = '2026-02-08',
+    @GameStartTime = '18:30',
+    @StadiumID = 29, -- Levi's Stadium (neutral site)
+    @NFLAdminID = 5; -- Bill Belichick
+
+    @GameID = 13,  
+    @HomeTeamScore = 29,
+    @AwayTeamScore = 13,
+    @NFLAdminID = 8; -- Mike Tomlin
+
+*/
 
 -- select * from AdminChangesTracker
 -- select * from Game

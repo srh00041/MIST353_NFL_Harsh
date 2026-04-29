@@ -152,7 +152,24 @@ execute procScheduleGame
     @GameDate = '2026-01-10',
     @GameStartTime = '20:00',
     @StadiumID = 17,
-    @NFLAdminID = 6;    
+    @NFLAdminID = 6;
+
+execute procScheduleGame
+    @HomeTeamID = 13, -- Denver Broncos
+    @AwayTeamID = 11, -- New England Patriots
+    @GameRound = 'Conference',
+    @GameDate = '2026-01-25',
+    @GameStartTime = '15:00',
+    @StadiumID = 13, -- Empower Field at Mile High
+    @NFLAdminID = 5; -- Bill Belichick
+
+
+    @GameID = 11, 
+    @HomeTeamScore = 7,
+    @AwayTeamScore = 10,
+    @NFLAdminID = 6; -- Sean McVay
+
+   
 
     select * from Game order by GameID desc;
     select * from AdminChangesTracker order by AdminChangesTrackerID desc;
@@ -202,3 +219,56 @@ BEGIN
     INSERT INTO AdminChangesTracker (NFLAdminID, GameID, ChangeType, ChangeDescription)
     VALUES (@NFLAdminID, @GameID, @ChangeType, @ChangeDescription);
 END
+
+go
+
+create or alter procedure procEnterScores
+(
+    @GameID INT,
+    @HomeTeamScore INT,
+    @AwayTeamScore INT,
+    @NFLAdminID INT
+)
+
+
+
+go
+
+create or alter trigger trgTrackChangesOnEnteringScores
+on Game
+after update
+as
+begin
+    declare @NFLAdminID INT;
+    declare @GameID INT;
+    declare @ChangeType NVARCHAR(50);
+    declare @ChangeDescription NVARCHAR(500);
+    declare @HomeTeamScore INT;
+    declare @AwayTeamScore INT;
+    declare @WinningTeamID INT;
+    declare @HomeTeamID INT;
+    declare @AwayTeamID INT;
+    declare @HomeTeamName NVARCHAR(50);
+    declare @AwayTeamName NVARCHAR(50);
+
+    set @NFLAdminID = convert(int, convert(binary(4), context_info()));
+
+    select @GameID = GameID, @HomeTeamScore = HomeTeamScore, @AwayTeamScore = AwayTeamScore,
+        @WinningTeamID = WinningTeamID, @HomeTeamID = HomeTeamID, @AwayTeamID = AwayTeamID
+    from inserted;
+
+    select @HomeTeamName = TeamName from Team where TeamID = @HomeTeamID;
+    select @AwayTeamName = TeamName from Team where TeamID = @AwayTeamID;
+
+    set @ChangeType = 'Update';
+    set @ChangeDescription = 'Scores updated by Admin with NFLAdminID=' + cast(@NFLAdminID as nvarchar(10))
+        + ' for GameID=' + cast(@GameID as nvarchar(10)) + ': Home=' + @HomeTeamName + ' (' + cast(@HomeTeamScore as nvarchar(10)) + ')'
+        + ', Away=' + @AwayTeamName + ' (' + cast(@AwayTeamScore as nvarchar(10)) + ')'
+        + ', WinningTeam=' + case when @WinningTeamID is not null then (select TeamName from Team where TeamID = @WinningTeamID) else 'TBD' end;
+
+    INSERT INTO AdminChangesTracker (NFLAdminID, GameID, ChangeType, ChangeDescription)
+    VALUES (@NFLAdminID, @GameID, @ChangeType, @ChangeDescription);
+END
+
+--the trigger needs to delete the data and inserting data
+--before next class - create trigger and insert info into stored procedures and trigger
