@@ -20,10 +20,11 @@ def get_teams_for_specified_fan(
 
         "TeamName": row["TeamName"],
         "Conference": row["Conference"],
-        "Division": row["Division"]
+        "Division": row["Division"],
+        "TeamColors": row["TeamColors"],
+        "PrimaryTeam": row["PrimaryTeam"]
     }
     for row in rows
 ]
-
     
     return {"data": results}
