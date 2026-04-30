@@ -8,21 +8,16 @@ def get_teams_for_specified_fan(
     #cursor = conn.cursor()
     cursor = conn.cursor(as_dict=True)
     #cursor.execute("{call procGetTeamsForSpecifiedFan(?)}", (nfl_fan_id))
-    cursor.execute("exec procGetTeamsForSpecifiedFan %s", (nfl_fan_id))
+    cursor.execute("exec procGetTeamsForSpecifiedFan %s", (nfl_fan_id,))
     rows = cursor.fetchall()
     conn.close()
 
     results = [
     {
-        """"TeamName": row.TeamName,
-        "Conference": row.Conference,
-        "Division": row.Division"""
-
         "TeamName": row["TeamName"],
         "Conference": row["Conference"],
         "Division": row["Division"],
-        "TeamColors": row["TeamColors"],
-        "PrimaryTeam": row["PrimaryTeam"]
+        "TeamColors": row["TeamColors"]
     }
     for row in rows
 ]
