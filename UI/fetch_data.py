@@ -5,11 +5,9 @@ import pandas as pd
 FASTAPI_URL = "http://localhost:8000"
 #FASTAPI_URL = "https://mist353-api-harsh.azurewebsites.net"
 
-def fetch_data(endpoint: str, input_params: dict, method: str = "GET"):
+def get_data(endpoint: str, input_params: dict, method: str = "GET"):
     if method == "GET":
         response = requests.get(f"{FASTAPI_URL}/{endpoint}", params=input_params)
-    elif method == "POST":
-        response = requests.post(f"{FASTAPI_URL}/{endpoint}", json=input_params)
         if response.status_code == 200:
             payload = response.json()
             rows = payload.get("data",[])
