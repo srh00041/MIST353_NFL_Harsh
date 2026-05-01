@@ -2,8 +2,8 @@ import streamlit as st
 import requests
 import pandas as pd
 
-FASTAPI_URL = "http://localhost:8000"
-#FASTAPI_URL = "https://mist353-api-harsh.azurewebsites.net"
+#FASTAPI_URL = "http://localhost:8000"
+FASTAPI_URL = "https://mist353-api-harsh.azurewebsites.net"
 
 def get_data(endpoint: str, input_params: dict, method: str = "GET"):
     if method == "GET":
