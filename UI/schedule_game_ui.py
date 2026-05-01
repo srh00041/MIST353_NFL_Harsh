@@ -12,11 +12,11 @@ def schedule_game_ui():
     GAME_ROUNDS = ["Wild Card", "Divisional", "Conference", "Super Bowl"]
 
     #create dropdowns for home team, away team, and stadium
-    team_options = dict(zip(teams_df["team_name"], teams_df["team_id"]))
-    stadium_options = dict(zip(stadiums_df["stadium_name"], stadiums_df["stadium_id"]))
+    team_options = dict(zip(teams_df["TeamName"], teams_df["TeamID"]))
+    stadium_options = dict(zip(stadiums_df["StadiumName"], stadiums_df["StadiumID"]))
 
-    home_team = st.selectbox("Select Home Team", options=team_options.keys())
-    away_team = st.selectbox("Select Away Team", options=team_options.keys())
+    home_team_name = st.selectbox("Select Home Team", options=team_options.keys())
+    away_team_name = st.selectbox("Select Away Team", options=team_options.keys())
     stadium_name = st.selectbox("Select Stadium", options=stadium_options.keys())
     game_round = st.selectbox("Enter Game Round", options=GAME_ROUNDS)
 
@@ -24,11 +24,23 @@ def schedule_game_ui():
     game_time = st.time_input("Select Game Start Time", value=time(13, 0))
 
     if st.button("Schedule Game"):
-        parameters = {}
+        if home_team_name == away_team_name:
+            st.warning("Home Team and Away Team cannot be the same. Please select different teams.")
+            return
+        
         home_team_id = team_options[home_team_name]
         away_team_id = team_options[away_team_name]
         stadium_id = stadium_options[stadium_name]
         nfl_admin_id = 1  # Assuming a default admin ID for scheduling
+
+        parameters = {}
+        parameters["home_team_id"] = home_team_id
+        parameters["away_team_id"] = away_team_id
+        parameters["game_date"] = game_date.isoformat()
+        parameters["game_start_time"] = game_time.isoformat()
+        parameters["stadium_id"] = stadium_id
+        parameters["game_round"] = game_round
+        parameters["nfl_admin_id"] = st.session_state.app_user_id
 
         input_data = {
             "home_team_id": home_team_id,
@@ -40,5 +52,8 @@ def schedule_game_ui():
             "nfl_admin_id": nfl_admin_id
         }
 
-        response = post_data("schedule_game/", input_data)
-        st.write(response.get("status message", "No response from server."))
+        response = post_data("schedule_game/", parameters)
+        if response is not None and "status message" in response:
+            st.info(response["status message"])
+        else:
+            st.error("An error occurred while scheduling the game. Please try again.")

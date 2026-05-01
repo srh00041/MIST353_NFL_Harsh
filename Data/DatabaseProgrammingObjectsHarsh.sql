@@ -77,6 +77,7 @@ BEGIN
     PasswordHash = convert(VARBINARY(200), @PasswordHash, 1);
 END
 -- execute procValidateUser @Email = 'tom.brady@example.com', @PasswordHash = '0x01';
+-- execute procValidateUser @Email = 'bill.belicheck@example.com', @PasswordHash = '0x01';
 
 GO
 
@@ -87,7 +88,7 @@ create or alter procedure procGetTeamsForSpecifiedFan
 AS
 BEGIN
     SELECT 
-        T.TeamName, CD.Conference, CD.Division, T.TeamColors
+        T.TeamName, CD.Conference, CD.Division, T.TeamColors 
     FROM NFLFan F
         INNER JOIN Team T
             ON F.NFLFanID = T.TeamID
@@ -128,8 +129,8 @@ create or alter procedure procScheduleGame
 )
 AS
 BEGIN
-    declare @contect VARBINARY(128) = cast(@NFLAdminID as VARBINARY(128));
-    SET context_info @contect;
+    declare @context VARBINARY(128) = cast(@NFLAdminID as VARBINARY(128));
+    SET context_info @context;
 
     INSERT INTO Game (HomeTeamID, AwayTeamID, GameRound, GameDate, GameStartTime, StadiumID, NFLAdminID)
     VALUES (@HomeTeamID, @AwayTeamID, @GameRound, @GameDate, @GameStartTime, @StadiumID, @NFLAdminID);

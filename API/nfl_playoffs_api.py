@@ -7,6 +7,7 @@ from schedule_game import schedule_game
 from datetime import date, time
 from get_all_teams import get_all_teams
 from get_all_stadiums import get_all_stadiums
+from get_all_changes_made_by_specific_admin import get_all_changes_made_by_specific_admin
 import pymssql
 
 app = FastAPI()
@@ -58,4 +59,7 @@ def get_all_teams_api():
 def get_all_stadiums_api():
     return get_all_stadiums()
 
+@app.get("/get_all_changes_made_by_specific_admin/")
+def get_all_changes_made_by_specific_admin_api(nfl_admin_id: int):
+    return get_all_changes_made_by_specific_admin(nfl_admin_id=nfl_admin_id)
 

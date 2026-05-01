@@ -122,7 +122,7 @@ create table NFLAdmin(
         constraint PK_NFLAdmin PRIMARY KEY
         constraint FK_NFLAdmin_AppUser FOREIGN KEY REFERENCES AppUser(AppUserID)
 );
-
+select * from NFLAdmin;
 GO
 
 create table FanTeam(
@@ -181,7 +181,8 @@ create table Game (
     constraint CK_Game_Teams CHECK (HomeTeamID != AwayTeamID),
     constraint UK_Game UNIQUE (HomeTeamID, AwayTeamID, GameDate)
 );
-
+ALTER TABLE Game
+ADD NFLAdminID INT;
 go
 
 create table AdminChangesTracker (
